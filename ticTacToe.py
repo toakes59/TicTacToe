@@ -16,7 +16,7 @@ randomNumberList = [0,1,2]
 #    return turn%2 == 0
 
 #enter selection
-def enterMove():
+def enterMove(player):
     chosing = True
     userX = input("Enter your X: ")
     userY = input("Enter your Y: ")
@@ -25,7 +25,10 @@ def enterMove():
     userInfo = [0] * 2
     while(chosing):
         if board[userX][userY] == ' ':
-            board[userX][userY] = 'X'
+            if player == 1:
+                board[userX][userY] = 'X'
+            elif player == 2:
+                board[userX][userY] = 'O'
             chosing = False
         else:
             userX = input("Enter your X again: ")
@@ -122,15 +125,21 @@ def printBoard():
         else:
             print()
     print()
-
-#main function
-def main():
-    turn = True
-    #Users info - turn, x, y
-    userInfo = [0] * 3
-    continueGame = True
-    winCheck = 'A'
     
+#allows the user to select one or two playerTurn
+def choseGameMode():
+    print("Welcome")
+    print("Would you like to play one or two player mode?")
+    print("")
+    print("Enter '1' for one player mode and '2' for two player mode")
+    gameMode = input("Enter choice: ")    
+    return gameMode
+    
+#one player
+def onePlayer():
+    turn = True
+    continueGame = True
+
     #Computer info - turn, x, y
     computerInfo = [0] * 3
     while continueGame:
@@ -145,12 +154,58 @@ def main():
             turn = True
             winCheck = checkWin(computerInfo)
             continueGame = winCheck == 'Y'
-        
-        
-    if winCheck == 'X':
-        print("You win!")
-    elif winCheck == 'O':
-        print("You lose!")
+    return winCheck
+
+#two player
+def twoPlayer():
+    #Player two info - turn, x, y
+    #playerTwoInfo = [0] * 3
+    turn = True
+    continueGame = True
+    
+    while continueGame:
+        printBoard()
+        if turn:
+            player = 1
+            userInfo = enterMove(player)
+            turn = False
+            winCheck = checkWin(userInfo)
+            continueGame = winCheck == 'Y'
+        else:
+            player = 2
+            userInfo = enterMove(player)
+            turn = True
+            winCheck = checkWin(userInfo)
+            continueGame = winCheck == 'Y'
+    return winCheck
+
+#main function
+def main():
+    #Users info - turn, x, y
+    userInfo = [0] * 3
+    winCheck = 'A'
+    
+    gameMode = choseGameMode()  
+    
+    #selects one or two player mode
+    if gameMode == '1':
+        winCheck = onePlayer()
+    elif gameMode == '2':
+        winCheck = twoPlayer()
+    else:
+        print("Something fucked up")
+    
+    #determine who wins
+    if gameMode == '1':
+        if winCheck == 'X':
+            print("You win!")
+        elif winCheck == 'O':
+            print("You lose!")
+    elif gameMode == '2':
+        if winCheck == 'X':
+            print("Player One wins!")
+        elif winCheck == 'O':
+            print("Player Two wins!")
     elif winCheck == 'Z':
         print("Tie Game!")
     else:
