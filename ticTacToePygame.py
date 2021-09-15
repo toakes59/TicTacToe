@@ -153,7 +153,19 @@ def checkMove(x, letter):
         board[a][b] = letter
         return True
     return False
-    
+
+#choses the location of the computers move
+#need to make this guy smarter
+def computersMove():
+    chosing = True
+    #print("Computer's Move:")
+    while(chosing):
+        computerX = random.choice(randomNumberList)
+        computerY = random.choice(randomNumberList)
+        
+        if board[computerX][computerY] == ' ':
+            board[computerX][computerY] = 'O'
+            chosing = False
     
 def addMove(x, move):
     localTurn = move
@@ -163,9 +175,10 @@ def addMove(x, move):
             if checkMove(x, 'X'):
                 #turn increment 
                 localTurn +=1
-        #Computer turn
-        #elif localTurn%2 == 0:
-            #do nothing
+                printBoard()
+                if checkWin(x) != 1:
+                    computersMove()
+                    localTurn +=1
     elif gameMode == 2:
         #Player 1 turn
         if localTurn%2 != 0:
