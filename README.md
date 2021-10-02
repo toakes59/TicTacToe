@@ -6,4 +6,5 @@ There is one and two player mode! You can play against our very smart computer A
 
 Added GUI Version in ticTacToePygame.py
 Now with both gamemodes working!
+
 TODO: Make the computer have a brain :0
