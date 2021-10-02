@@ -122,6 +122,9 @@ def displayPage2():
     
     
 def checkMove(x, letter):
+    a = 0
+    b = 0
+    
     if x == 1:
         a = 0
         b = 0
@@ -149,6 +152,8 @@ def checkMove(x, letter):
     elif x == 9:
         a = 2
         b = 2
+    else:
+        return False
     if board [a][b] == ' ':
         board[a][b] = letter
         return True
@@ -307,13 +312,34 @@ def displayGameOverText(x):
     else:
         resultText = resultFont.render("Something Fucked up!",True,(29,168,52))
     screen.blit(resultText, (250, 10))
+        
+    # Main menu button
+    menuFont = pygame.font.Font('freesansbold.ttf', 16)
+    pygame.draw.rect(screen,(170,170,170),[330,375,140,40])    
+    menu = menuFont.render("Main Menu",True,(0,0,0))    
+    screen.blit(menu, (360, 387))          #width is button width+30 and height is button height+12
 
+# Resets game
+def newGame():
+    page = '1'
+    board = [
+             [' ',' ',' '],
+             [' ',' ',' '],
+             [' ',' ',' ']
+             ]
+    gameMode = 0
+    turn = 1
+    screenWait = False
+    screenWait2 = False
+    displayLetters = True
+    win = 0
 
 # Game loop
 running = True
 turn = 1
 quad = 0
 screenWait = False
+screenWait2 = False
 displayLetters = True
 #0 = nothing
 #1 = first player wins
@@ -332,6 +358,7 @@ while running:
         displayLetters = False
         printBoard()
         displayGameOverText(win)
+        screenWait2 = True
 
     mouse = pygame.mouse.get_pos()
 
@@ -388,6 +415,13 @@ while running:
                 win = checkWin(quad)
                 if win != 0:
                     page = '3'
+                # Page two
+        if page == '3' and screenWait2:
+            #checks if a mouse is clicked
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                #Checks if main menu button is clicked
+                if 330 <= mouse[0] <= 470 and 375 <= mouse[1] <= 415:
+                    newGame()
  
     #main()
     if displayLetters:
