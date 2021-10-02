@@ -21,7 +21,7 @@ pygame.display.set_icon(icon)
 background = pygame.image.load('background.jpg')
 
 # Background sound
-mixer.music.load('background.wav')
+mixer.music.load('TICTAKLOOP.wav')
 mixer.music.play(-1)
 
 # stores the width of the
